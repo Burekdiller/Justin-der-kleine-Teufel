@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -490,3 +491,101 @@
   </script>
 </body>
 </html>
+=======
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Justin - Der kleine Teufel</title>
+  <style>
+    /* CSS kommt hier rein (siehe Schritt 3) */
+    body { margin: 0; padding: 0; overflow: hidden; background-color: #222; }
+    canvas { display: block; margin: auto; background: #eee; }
+  </style>
+</head>
+<body>
+  <!-- Das Canvas, in dem das Spiel stattfindet -->
+  <canvas id="gameCanvas" width="800" height="600"></canvas>
+  
+  <!-- JavaScript-Code wird hier eingebunden (siehe Schritt 4) -->
+  <script>
+    // Schritt 4: JavaScript-Code für das Spiel
+
+    // Hol dir das Canvas und seinen 2D-Kontext
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Eigenschaften von Justin
+    const justin = {
+      x: 100,
+      y: 500,
+      width: 50,
+      height: 50,
+      speed: 5,
+      dy: 0,
+      gravity: 0.5,
+      jumpStrength: -10,
+      onGround: true
+    };
+
+    // Objekt, um Tastendrücke zu speichern
+    const keys = {};
+
+    // Event-Listener für Tastatureingaben
+    document.addEventListener('keydown', function(e) {
+      keys[e.key] = true;
+      // Mit Leertaste oder Pfeil nach oben springen, wenn am Boden
+      if ((e.key === " " || e.key === "ArrowUp") && justin.onGround) {
+        justin.dy = justin.jumpStrength;
+        justin.onGround = false;
+      }
+    });
+
+    document.addEventListener('keyup', function(e) {
+      keys[e.key] = false;
+    });
+
+    // Update-Funktion: Aktualisiert Justins Position und prüft Kollisionen
+    function update() {
+      // Horizontale Bewegung
+      if (keys['ArrowRight'] || keys['d']) {
+        justin.x += justin.speed;
+      }
+      if (keys['ArrowLeft'] || keys['a']) {
+        justin.x -= justin.speed;
+      }
+      
+      // Schwerkraft anwenden
+      justin.y += justin.dy;
+      justin.dy += justin.gravity;
+      
+      // Boden-Kollision
+      if (justin.y + justin.height > canvas.height) {
+        justin.y = canvas.height - justin.height;
+        justin.dy = 0;
+        justin.onGround = true;
+      }
+    }
+
+    // Draw-Funktion: Zeichnet Justin auf dem Canvas
+    function draw() {
+      // Leert das Canvas
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      // Zeichnet Justin als rotes Quadrat
+      ctx.fillStyle = "red";
+      ctx.fillRect(justin.x, justin.y, justin.width, justin.height);
+    }
+
+    // Game Loop: Wiederholt Update und Draw in jedem Frame
+    function gameLoop() {
+      update();
+      draw();
+      requestAnimationFrame(gameLoop);
+    }
+
+    // Starte den Game Loop
+    gameLoop();
+  </script>
+</body>
+</html>
+>>>>>>> c17298bf9e04ffc1033356fb76e26ae2804c5396
